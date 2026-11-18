@@ -2,47 +2,95 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>Kalkulator Sederhana</title>
+  <title>Kalkulator Polos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+
+    .kalkulator {
+      width: 220px;
+      border: 1px solid #999;
+      padding: 10px;
+      background-color: #f4f4f4;
+    }
+
+    #layar {
+      width: 100%;
+      height: 35px;
+      font-size: 18px;
+      text-align: right;
+      margin-bottom: 10px;
+      padding: 4px;
+      box-sizing: border-box;
+    }
+
+    .tombol {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+    }
+
+    button {
+      height: 40px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .lebar {
+      grid-column: span 2;
+    }
+  </style>
 </head>
 <body>
-  <h2>Kalkulator Sederhana</h2>
-  <input type="number" id="angka1" placeholder="Angka 1" />
-  <select id="operator">
-    <option value="+">+</option>
-    <option value="-">-</option>
-    <option value="*">*</option>
-    <option value="/">/</option>
-  </select>
-  <input type="number" id="angka2" placeholder="Angka 2" />
-  <button onclick="hitung()">Hitung</button>
-  <p id="hasil">Hasil: -</p>
+
+  <div class="kalkulator">
+    <input type="text" id="layar" readonly />
+    <div class="tombol">
+      <button class="lebar" onclick="hapus()">C</button>
+      <button onclick="tambah('/')">/</button>
+      <button onclick="tambah('*')">*</button>
+
+      <button onclick="tambah('7')">7</button>
+      <button onclick="tambah('8')">8</button>
+      <button onclick="tambah('9')">9</button>
+      <button onclick="tambah('-')">-</button>
+
+      <button onclick="tambah('4')">4</button>
+      <button onclick="tambah('5')">5</button>
+      <button onclick="tambah('6')">6</button>
+      <button onclick="tambah('+')">+</button>
+
+      <button onclick="tambah('1')">1</button>
+      <button onclick="tambah('2')">2</button>
+      <button onclick="tambah('3')">3</button>
+      <button onclick="hitung()">=</button>
+
+      <button class="lebar" onclick="tambah('0')">0</button>
+      <button class="lebar" onclick="tambah('.')">.</button>
+    </div>
+  </div>
 
   <script>
+    const layar = document.getElementById("layar");
+
+    function tambah(nilai) {
+      layar.value += nilai;
+    }
+
+    function hapus() {
+      layar.value = "";
+    }
+
     function hitung() {
-      const a = parseFloat(document.getElementById("angka1").value);
-      const b = parseFloat(document.getElementById("angka2").value);
-      const op = document.getElementById("operator").value;
-      const elHasil = document.getElementById("hasil");
-
-      if (isNaN(a) || isNaN(b)) {
-        elHasil.textContent = "Hasil: masukkan kedua angka";
-        return;
+      try {
+        layar.value = eval(layar.value) || "";
+      } catch {
+        layar.value = "Error";
       }
-
-      let res;
-      if (op === "+") res = a + b;
-      else if (op === "-") res = a - b;
-      else if (op === "*") res = a * b;
-      else if (op === "/") {
-        if (b === 0) {
-          elHasil.textContent = "Hasil: tidak bisa dibagi nol";
-          return;
-        }
-        res = a / b;
-      }
-
-      elHasil.textContent = "Hasil: " + res;
     }
   </script>
+
 </body>
 </html>
